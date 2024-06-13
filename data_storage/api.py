@@ -20,9 +20,9 @@ def check_server_status(client):
 
 
 class MyData():
-    """A class to save json data into a data base. This class provides with basic
-    operations to operate on the data, such as: `create`, `get`, `update`,
-    `delete`. This class is typically used as follows:
+    """A class to save json data into a data base. This class provides with
+    basic operations to operate on the data, such as: `create`, `get`,
+    `update`, `delete`. This class is typically used as follows:
 
 
         data = MyData(database="db", collection="collection")
@@ -75,12 +75,17 @@ class MyData():
         This method is used to insert the JSON data into the database. While the
         `json_data` is first verified if it is valid, else an error is raised.
         """
-        # Handle this error
-        # pymongo.errors.DuplicateKeyError
-        if isinstance(json_data, dict):
-            return self.collection.insert_one(json_data).inserted_id
-        elif isinstance(json_data, list):
-            return self.collection.insert_many(json_data).inserted_ids
+        try:
+            if isinstance(json_data, dict):
+                return self.collection.insert_one(json_data).inserted_id
+
+            elif isinstance(json_data, list):
+                return self.collection.insert_many(json_data).inserted_ids
+
+        except pymongo.errors.DuplicateKeyError:
+            print(f"This is a duplicate entry : {json_data}")
+            print("Which is skipped from entry")
+            return None
 
     def insert_from_file(self, file_path):
         """Insert JSON data into the database using a file path.
@@ -88,7 +93,12 @@ class MyData():
         Load JSON data into database using a local json file.
         """
         with open(file_path) as file:
-            file_data = json.load(file)
+            try:
+                file_data = json.load(file)
+            except:
+                print("The object is not a valid json data. Please check the data in the file")
+                print(f"The file corresponding to the data is at `{file_path}`")
+                raise SystemExit(0)
         return self.insert(file_data)
 
     def get(self, _id):

@@ -1,29 +1,52 @@
-# Database storage package
+# Basic CRUD API using pymongo
 ## Overview
+
 
 ## Installation
 
 ### Prerequisites
 
-We need python 3.11.9
-Mongod database server which can be installed
-
+We need python 3.11.9 and mongod database server which can be installed by
+following the instructions at:
+```
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
+```
 
 
-We need `pymongo` and a few other packages, which can be installed using
+### Installing the package
+
+First clone the repository from github by running:
+
+```
+git clone https://github.com/dineshadepu/data_storage
+```
+
+Then change the directory to the package folder by:
+
+```
+cd data_storage
+```
+
+We need `pymongo` package to interact with `mongod` database. Which can be
+installed by running:
 ```
 pip install -r requirements.txt
 ```
 
-# Installing the package
-
-We need `pymongo` and a few other packages, which can be installed using
+Finally, the current package can be installed by running:
 ```
 python setup.py develop
 ```
 
-# Running the tests
+Before using the package we need `mongod` server to be up and running, which
+can be started by running the following command in the terminal:
+
+```
+sudo systemctl start mongod
+```
+
+
+### Running the tests
 
 To run the tests, change to the tests directory and execute
 ```
@@ -55,7 +78,7 @@ file_path = "path_to_json_file.json"
 idxs = data.insert_from_file(file_path)
 ```
 The `insert` method will handle cases where the json data being inserted is a
-list of `json` data or a list of `json` data.
+single `json` data or a list of `json` data.
 
 We can retrieve (get) the data from the database from a given id, this can be
 done by:
@@ -69,7 +92,6 @@ updated values as:
 update_value = {"name": "Dinesh", "address": "Warangal"}
 data.update(id, update_value)
 ```
-
 
 We can delete data corresponding to the given id from the database by:
 ```
