@@ -1,6 +1,7 @@
 import unittest
 from pymongo.errors import ConnectionFailure
 from data_storage.api import MyData
+import json
 
 
 class TestInitializeMyData(unittest.TestCase):
@@ -14,16 +15,33 @@ class TestInitializeMyData(unittest.TestCase):
         self.data.insert(self.single_json_data)
 
     def tearDown(self):
-        # Create the database
+        # delete the database
         self.data.client.drop_database('test_database')
+        # Close the connection
         self.data.close()
 
-    def test_read_data_with_correct_id(self):
+    def test_insert_from_file(self):
+        # first isnert the data
+        many_ids = self.data.insert_from_file("test_data/json_2.json")
+        # load the json data locally
+        file_path = "test_data/json_2.json"
+        with open(file_path) as file:
+            file_data = json.load(file)
+        file_data[0]['_id'] = many_ids[0]
+        # test if the data is loaded from the file into the server
+        self.assertDictEqual(self.data.get(many_ids[0]), file_data[0])
+
+    def test_get_data_with_incorrect_id(self):
+        # Get the data based on the  id
+        value = self.data.get(2)
+        self.assertEqual(None, value)
+
+    def test_get_data_with_correct_id(self):
         # Get the data based on the  id
         value = self.data.get(1)
         self.assertDictEqual(self.single_json_data, value)
 
-    def test_read_data_with_incorrect_id(self):
+    def test_get_data_with_incorrect_id(self):
         # Get the data based on the  id
         value = self.data.get(2)
         self.assertEqual(None, value)
