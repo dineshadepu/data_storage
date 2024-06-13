@@ -12,6 +12,8 @@ print("Data before any insertion")
 print(data)
 
 # Insert json data into the database
+json_data = {"name": "Mike", "address": "Highway 39"}
+idx = data.insert(json_data)
 json_data = {"name": "John", "address": "Highway 37"}
 idx = data.insert(json_data)
 print("Data after insertion")
@@ -24,13 +26,13 @@ print(value)
 print()
 
 # Update it
-value = data.get(idx)
 update_value = {"name": "Dinesh", "address": "Warangal"}
 data.update(idx, update_value)
 print("Data after updating the value")
 print(data)
-data.delete(idx)
 
+# delete it
+data.delete(idx)
 print("Data after deletion")
 print(data)
 data.client.drop_database('ex_1')

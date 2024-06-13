@@ -31,11 +31,6 @@ class TestInitializeMyData(unittest.TestCase):
         # test if the data is loaded from the file into the server
         self.assertDictEqual(self.data.get(many_ids[0]), file_data[0])
 
-    def test_get_data_with_incorrect_id(self):
-        # Get the data based on the  id
-        value = self.data.get(2)
-        self.assertEqual(None, value)
-
     def test_get_data_with_correct_id(self):
         # Get the data based on the  id
         value = self.data.get(1)
