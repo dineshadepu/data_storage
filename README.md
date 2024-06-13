@@ -1,6 +1,7 @@
-# Basic CRUD API using pymongo
+# CRUD API using pymongo
 ## Overview
-
+The current package is used to execute basic operations such as: create, read, update
+and delete JSON data in a database.
 
 ## Installation
 
@@ -90,10 +91,10 @@ We can update the data in the database given the id and the
 updated values as:
 ```
 update_value = {"name": "Dinesh", "address": "Warangal"}
-data.update(id, update_value)
+data.update(idx, update_value)
 ```
 
 We can delete data corresponding to the given id from the database by:
 ```
-data.delete(id)
+data.delete(idx)
 ```
