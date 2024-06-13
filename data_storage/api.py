@@ -114,6 +114,6 @@ class MyData():
     def __str__(self):
         values = ""
         for value in self.collection.find({}):
-            values = values + "\n" + str(value)
+            values = values + str(value) + "\n"
 
         return values
